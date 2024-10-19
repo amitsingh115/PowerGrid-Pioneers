@@ -15,3 +15,10 @@ st.info('power generation')
 with st.expander('power generation'):
   #S.no,Power station,Type of energy source,Energy Output
   st.bar_chart(data=df, x='Power station' , y='Energy Output',)
+
+#data preparation
+with st.sidebar:
+  st.header('input features')
+  Type of energy =st.selectbox("Type of energy",('Renewable', 'Non-renewable'))
+  
+  
