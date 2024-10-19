@@ -20,7 +20,7 @@ with st.expander('power generation'):
 with st.sidebar:
   st.header('input features')
   #S.no,Power station,Source,Energy Output
-  Source = st.selectbox('Source',())
+  Source = st.selectbox('Source',('Renewable','Non-renewable'))
 
   
   
