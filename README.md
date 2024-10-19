@@ -1,13 +1,13 @@
-# 📦 Streamlit App Starter Kit 
+# 📦 Grid Management App
 ```
 ⬆️ (Replace above with your app's name)
 ```
 
-Description of the app ...
+This is Smart Grid Management System
 
 ## Demo App
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://app-starter-kit.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://SmartGridSystem.streamlit.app/)
 
 ## GitHub Codespaces
 
