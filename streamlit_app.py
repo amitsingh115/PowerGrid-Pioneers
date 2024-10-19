@@ -11,4 +11,5 @@ with st.expander('Data'):
   df
 
 with st.expander('power generation'):
-  st.bar_chart(data=df, x)
+  #S.no,Power station,Type of energy source,Energy Output
+  st.bar_chart(data=df, x='Energy Output' , y='Power station')
