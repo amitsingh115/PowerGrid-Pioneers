@@ -27,11 +27,10 @@ with st.sidebar:
 with st.expander('Total Renewable energy production'):
  st.write('**Total renewable energy production**')
  df = pd.read_csv('https://raw.githubusercontent.com/amitsingh115/PowerGrid-Pioneers/refs/heads/master/.streamlit/total%20renewable%20energy%20power%20generation.csv')
- df = pd.read_csv('https://raw.githubusercontent.com/amitsingh115/PowerGrid-Pioneers/refs/heads/master/.streamlit/nuclear%20power%20plant%20data.csv')
  df
 
 with st.expander('Total Renewable energy production line chart'):
-  st.line_chart(data=df, x='time', y= 'power generation',x='time',y= 'energy generation')
+  st.line_chart(data=df, x='time', y= 'power generation',x='time',)
   
 
 
