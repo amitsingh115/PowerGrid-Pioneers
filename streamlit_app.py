@@ -33,7 +33,7 @@ with st.expander('Total Renewable energy production line chart'):
  st.line_chart(
     data=df,
     x="time",
-    y=["power generation", "energy generation"],
+    y=["power generation", "nuclear power"],
     color=["#FF0000", "#0000FF"],  # Optional
 )
   
