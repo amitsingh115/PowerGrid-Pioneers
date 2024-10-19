@@ -22,6 +22,9 @@ with st.sidebar:
   #S.no,Power station,Source,Energy Output
   Source = st.selectbox('Source',('Renewable','Non-renewable'))
 
+st.header('Total Renewable energy production')
+
+
   
   
   
