@@ -10,5 +10,4 @@ with st.expander('Data'):
   df = pd.read_csv('https://raw.githubusercontent.com/amitsingh115/PowerGrid-Pioneers/refs/heads/master/Power%20Stations.csv')
   df
 
-
-with st.write('Power Generaytion plant'):
+st.write('Power Generaytion plant'):
