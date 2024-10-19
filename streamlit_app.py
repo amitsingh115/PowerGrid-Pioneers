@@ -11,4 +11,4 @@ with st.expander('Data'):
   df
 
 
-with st.write('Power Generaytion plant')
+with st.write('Power Generaytion plant'):
