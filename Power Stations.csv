@@ -1,0 +1,7 @@
+S.no,Power station,Type of energy source,Energy Output
+1,Thermal plant,Non-renewable,1000 MW
+2,Nuclear plant,Renewable,1200 MW
+3,Solar Farm 1,Renewable,300 MW
+4,Solar Farm 2,Renewable,350 MW
+5,Wind Farm 1,Renewable,150 MW
+6,Wind Farm 2,Renewable,200 MW
