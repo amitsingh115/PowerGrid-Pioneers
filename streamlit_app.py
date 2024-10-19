@@ -19,7 +19,8 @@ with st.expander('power generation'):
 #data preparation
 with st.sidebar:
   st.header('input features')
-  
+  #S.no,Power station,Source,Energy Output
+  Source = st.selectbox('Source',())
 
   
   
