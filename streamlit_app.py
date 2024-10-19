@@ -10,4 +10,5 @@ with st.expander('Data'):
   df = pd.read_csv('https://raw.githubusercontent.com/amitsingh115/PowerGrid-Pioneers/refs/heads/master/Power%20Stations.csv')
   df
 
-st.write('Power Generaytion plant'):
+with st.expander('power generation'):
+  st.bar_chart(data=df, x)
