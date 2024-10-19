@@ -9,3 +9,6 @@ with st.expander('Data'):
   st.write('**Power Generation Plants**')
   df = pd.read_csv('https://raw.githubusercontent.com/amitsingh115/PowerGrid-Pioneers/refs/heads/master/Power%20Stations.csv')
   df
+
+
+with st.write('Power Generaytion plant')
