@@ -22,7 +22,9 @@ with st.sidebar:
   #S.no,Power station,Source,Energy Output
   Source = st.selectbox('Source',('Renewable','Non-renewable'))
 
-with st.header('Total Renewable energy production'):
+st.info('Total renewable energy production')
+
+with st.expander('Total Renewable energy production'):
  st.write('**Total renewable energy production**')
  df = pd.read_csv('https://raw.githubusercontent.com/amitsingh115/PowerGrid-Pioneers/refs/heads/master/.streamlit/total%20renewable%20energy%20power%20generation.csv')
  df
