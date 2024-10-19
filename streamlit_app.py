@@ -19,6 +19,7 @@ with st.expander('power generation'):
 #data preparation
 with st.sidebar:
   st.header('input features')
+  Type of energy source =st.selectbox('Type of energy source',('Renewable','Non-renewable'))
 
   
   
