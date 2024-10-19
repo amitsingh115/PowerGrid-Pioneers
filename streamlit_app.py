@@ -17,6 +17,8 @@ with st.expander('power generation'):
   st.bar_chart(data=df, x='Power station' , y='Energy Output',)
 
 #data preparation
+with st.sidebar:
+  st.header('input features')
 
   
   
