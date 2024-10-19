@@ -31,7 +31,8 @@ with st.expander('Total Renewable energy production'):
  df
 
 with st.expander('Total Renewable energy production line chart'):
-  st.line_chart(data=df, x='time', y= 'power generation')
+  st.line_chart(data=df, x='time', y= 'power generation',x='time',y= 'energy generation')
+  
 
 
   
