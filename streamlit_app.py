@@ -29,6 +29,10 @@ with st.expander('Total Renewable energy production'):
  df = pd.read_csv('https://raw.githubusercontent.com/amitsingh115/PowerGrid-Pioneers/refs/heads/master/.streamlit/total%20renewable%20energy%20power%20generation.csv')
  df
 
+st.info('total Renewable energy production')
+with st.expander('Total Renewable energy production'):
+  st.line_chart(data=df, x='time', y= 'power generation')
+
 
   
   
