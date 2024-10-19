@@ -33,7 +33,7 @@ with st.expander('Total Renewable energy production line chart'):
  st.line_chart(
     data=df,
     x="time",
-    y=["nuclear power"]
+    y=["col1","col2"]
     
 )
   
