@@ -23,6 +23,7 @@ with st.sidebar:
   Source = st.selectbox('Source',('Renewable','Non-renewable'))
 
 st.header('Total Renewable energy production')
+st.line_chart(chart_data)
 
 
   
