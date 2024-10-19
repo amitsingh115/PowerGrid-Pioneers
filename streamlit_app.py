@@ -22,7 +22,7 @@ with st.sidebar:
   #S.no,Power station,Source,Energy Output
   Source = st.selectbox('Source',('Renewable','Non-renewable'))
 
-st.info('Total renewable energy production')
+
 
 with st.expander('Total Renewable energy production'):
  st.write('**Total renewable energy production**')
