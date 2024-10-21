@@ -437,6 +437,40 @@ elif option == "Smart Load Balancing":
     st.subheader("Energy Source Allocation")
     smart_load_balancing(substations, energy_sources)
 
+#line chart of different sources
+import pandas as pd
+import numpy as np
+
+# Function to simulate energy production over time
+def simulate_energy_production(hours=24):
+    # Randomly simulate production data for 24 hours
+    time_range = pd.date_range(start="00:00", periods=hours, freq="H")
+    
+    # Simulated data for each energy source
+    solar_production = np.clip(np.sin(np.linspace(0, np.pi, hours)) * 50, 0, 50)  # Solar peaks during the day
+    wind_production = np.random.normal(loc=60, scale=15, size=hours)  # Wind varies but stays active
+    thermal_production = np.full(hours, 100)  # Thermal power is steady
+    
+    # Creating DataFrame for the energy production
+    energy_data = pd.DataFrame({
+        "Time": time_range,
+        "Solar Farm": solar_production,
+        "Wind Farm": wind_production,
+        "Thermal Power Plant": thermal_production
+    }).set_index("Time")
+    
+    return energy_data
+
+# Use the function to simulate energy production for 24 hours
+energy_data = simulate_energy_production(hours=24)
+
+# Display the line chart in your Streamlit app
+st.subheader("Energy Production Over 24 Hours")
+st.line_chart(energy_data)
+
+st.write("This chart shows the simulated energy production for the Solar Farm, Wind Farm, and Thermal Power Plant over the last 24 hours.")
+
+
 
 
     
