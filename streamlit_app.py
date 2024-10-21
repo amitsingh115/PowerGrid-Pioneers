@@ -264,6 +264,181 @@ elif option == "Weather Forecast":
             st.error("Could not fetch weather data. Please check the city name or try again later.")
 
 
+#F2 Smartload balancing 
+
+import streamlit as st
+import requests
+
+# Constants
+API_KEY = "YOUR_API_KEY"  # Replace with your actual API key from a weather service
+
+# Function to fetch weather data
+def get_weather_forecast(city):
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        main = data['main']
+        wind = data['wind']
+        weather_desc = data['weather'][0]['description']
+        
+        forecast = {
+            "Temperature": f"{main['temp']} °C",
+            "Humidity": f"{main['humidity']} %",
+            "Pressure": f"{main['pressure']} hPa",
+            "Wind Speed": f"{wind['speed']} m/s",
+            "Description": weather_desc
+        }
+        return forecast
+    else:
+        return None
+
+# Substation class for managing substations
+class Substation:
+    def __init__(self, id, load, has_fault):
+        self.id = id
+        self.load = load
+        self.has_fault = has_fault
+        self.power_cut = False
+
+    def cut_power(self):
+        self.power_cut = True
+
+    def restore_power(self):
+        self.power_cut = False
+
+    def status(self):
+        status = "Power Cut" if self.power_cut else "Active"
+        return {
+            "ID": self.id,
+            "Load": self.load,
+            "Has Fault": self.has_fault,
+            "Status": status
+        }
+
+# Energy Source class
+class EnergySource:
+    def __init__(self, name, capacity, efficiency):
+        self.name = name
+        self.capacity = capacity  # Max capacity in MW
+        self.efficiency = efficiency  # Efficiency (0-100%)
+        self.current_output = 0  # Current output in MW
+
+    def provide_energy(self, demand):
+        available = min(self.capacity, demand)
+        self.current_output = available
+        return available
+
+    def reset_output(self):
+        self.current_output = 0
+
+    def status(self):
+        return f"{self.name}: Output {self.current_output} MW / Capacity {self.capacity} MW"
+
+# Function to simulate load balancing
+def smart_load_balancing(substations, energy_sources):
+    total_demand = sum([substation.load for substation in substations if not substation.power_cut])
+    remaining_demand = total_demand
+
+    # Prioritize energy sources based on efficiency
+    energy_sources.sort(key=lambda x: x.efficiency, reverse=True)
+
+    # Allocate energy from most efficient sources
+    for source in energy_sources:
+        if remaining_demand > 0:
+            provided = source.provide_energy(remaining_demand)
+            remaining_demand -= provided
+        else:
+            source.reset_output()
+
+    if remaining_demand > 0:
+        st.warning(f"Warning: Unmet demand of {remaining_demand} MW. Consider adding more capacity.")
+
+    # Display energy source statuses
+    for source in energy_sources:
+        st.write(source.status())
+
+# Function to simulate grid monitoring
+def monitor_grid(substations):
+    for substation in substations:
+        if substation.load > 80 or substation.has_fault:
+            substation.cut_power()
+        elif substation.power_cut and substation.load <= 80 and not substation.has_fault:
+            substation.restore_power()
+
+# Streamlit Sidebar for navigation
+option = st.sidebar.selectbox(
+    "Choose an option",
+    ["Grid Management", "Weather Forecast", "Smart Load Balancing"]
+)
+
+# Initialize substations and energy sources
+substations = [
+    Substation(1, 60, False),
+    Substation(2, 85, False),  # Overloaded
+    Substation(3, 50, True),   # Fault detected
+    Substation(4, 75, False),
+    Substation(5, 90, False)   # Overloaded
+]
+
+# Energy sources with different capacities and efficiencies
+energy_sources = [
+    EnergySource("Fossil Fuel Plant", 150, 50),  # Capacity 150 MW, 50% efficiency
+    EnergySource("Wind Farm", 80, 90),           # Capacity 80 MW, 90% efficiency
+    EnergySource("Solar Plant", 50, 85),         # Capacity 50 MW, 85% efficiency
+]
+
+# Grid Management Option
+if option == "Grid Management":
+    st.title("Smart Grid Management System")
+
+    # Monitor the grid for overloads or faults
+    monitor_grid(substations)
+
+    # Display Substation statuses
+    st.subheader("Substation Statuses")
+    for substation in substations:
+        status = substation.status()
+        st.write(f"Substation ID: {status['ID']}")
+        st.write(f"Load: {status['Load']}%")
+        st.write(f"Fault: {status['Has Fault']}")
+        st.write(f"Status: {status['Status']}")
+        st.write("---")
+
+# Weather Forecast Option
+elif option == "Weather Forecast":
+    st.title("Weather Forecast")
+
+    # Input for city name
+    city = st.text_input("Enter city name for weather forecast:", "New York")
+
+    if st.button("Get Forecast"):
+        forecast = get_weather_forecast(city)
+        
+        if forecast:
+            st.subheader(f"Weather forecast for {city.capitalize()}:")
+            st.write(f"Temperature: {forecast['Temperature']}")
+            st.write(f"Humidity: {forecast['Humidity']}")
+            st.write(f"Pressure: {forecast['Pressure']}")
+            st.write(f"Wind Speed: {forecast['Wind Speed']}")
+            st.write(f"Weather Description: {forecast['Description']}")
+        else:
+            st.error("Could not fetch weather data. Please check the city name or try again later.")
+
+# Smart Load Balancing Option
+elif option == "Smart Load Balancing":
+    st.title("Smart Load Balancing System")
+
+    st.subheader("Substation Demand")
+    total_demand = sum([substation.load for substation in substations if not substation.power_cut])
+    st.write(f"Total Energy Demand: {total_demand} MW")
+
+    st.subheader("Energy Source Allocation")
+    smart_load_balancing(substations, energy_sources)
+
+
+
     
 
   
