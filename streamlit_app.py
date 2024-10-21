@@ -442,7 +442,7 @@ import pandas as pd
 import numpy as np
 
 # Function to simulate energy production over time
-def simulate_energy_production(hours=24):
+def simulate_energy_production(hours=12):
     # Randomly simulate production data for 24 hours
     time_range = pd.date_range(start="00:00", periods=hours, freq="H")
     
@@ -462,10 +462,10 @@ def simulate_energy_production(hours=24):
     return energy_data
 
 # Use the function to simulate energy production for 24 hours
-energy_data = simulate_energy_production(hours=24)
+energy_data = simulate_energy_production(hours=12)
 
 # Display the line chart in your Streamlit app
-st.subheader("Energy Production Over 24 Hours")
+st.subheader("Energy Production Over 12 Hours")
 st.line_chart(energy_data)
 
 st.write("This chart shows the simulated energy production for the Solar Farm, Wind Farm, and Thermal Power Plant over the last 24 hours.")
