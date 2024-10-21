@@ -148,6 +148,122 @@ if st.button("Start Monitoring"):
 
 st.write("Note: Power will be cut if the load exceeds the substation's threshold.")
 
+
+#   Weather Forecast
+
+import streamlit as st
+import requests
+import json
+
+# Constants
+API_KEY = "YOUR_API_KEY"  # Replace with your actual API key from a weather service
+
+# Function to fetch weather data
+def get_weather_forecast(city):
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        main = data['main']
+        wind = data['wind']
+        weather_desc = data['weather'][0]['description']
+        
+        forecast = {
+            "Temperature": f"{main['temp']} °C",
+            "Humidity": f"{main['humidity']} %",
+            "Pressure": f"{main['pressure']} hPa",
+            "Wind Speed": f"{wind['speed']} m/s",
+            "Description": weather_desc
+        }
+        return forecast
+    else:
+        return None
+
+# Substation class for managing substations
+class Substation:
+    def __init__(self, id, load, has_fault):
+        self.id = id
+        self.load = load
+        self.has_fault = has_fault
+        self.power_cut = False
+
+    def cut_power(self):
+        self.power_cut = True
+
+    def restore_power(self):
+        self.power_cut = False
+
+    def status(self):
+        status = "Power Cut" if self.power_cut else "Active"
+        return {
+            "ID": self.id,
+            "Load": self.load,
+            "Has Fault": self.has_fault,
+            "Status": status
+        }
+
+# Function to simulate grid monitoring and auto-cut power
+def monitor_grid(substations):
+    for substation in substations:
+        if substation.load > 80 or substation.has_fault:
+            substation.cut_power()
+        elif substation.power_cut and substation.load <= 80 and not substation.has_fault:
+            substation.restore_power()
+
+# Streamlit Sidebar for navigation
+option = st.sidebar.selectbox(
+    "Choose an option",
+    ["Grid Management", "Weather Forecast"]
+)
+
+# Grid Management Option
+if option == "Grid Management":
+    st.title("Smart Grid Management System")
+
+    # Initialize substations (could be dynamic, but hardcoded for now)
+    substations = [
+        Substation(1, 60, False),
+        Substation(2, 85, False),  # Overload
+        Substation(3, 50, True),   # Fault detected
+        Substation(4, 75, False),
+        Substation(5, 90, False)   # Overload
+    ]
+
+    # Monitor the grid
+    monitor_grid(substations)
+
+    # Display Substation statuses
+    st.subheader("Substation Statuses")
+    for substation in substations:
+        status = substation.status()
+        st.write(f"Substation ID: {status['ID']}")
+        st.write(f"Load: {status['Load']}%")
+        st.write(f"Fault: {status['Has Fault']}")
+        st.write(f"Status: {status['Status']}")
+        st.write("---")
+
+# Weather Forecast Option
+elif option == "Weather Forecast":
+    st.title("Weather Forecast")
+
+    # Input for city name
+    city = st.text_input("Enter city name for weather forecast:", "New York")
+
+    if st.button("Get Forecast"):
+        forecast = get_weather_forecast(city)
+        
+        if forecast:
+            st.subheader(f"Weather forecast for {city.capitalize()}:")
+            st.write(f"Temperature: {forecast['Temperature']}")
+            st.write(f"Humidity: {forecast['Humidity']}")
+            st.write(f"Pressure: {forecast['Pressure']}")
+            st.write(f"Wind Speed: {forecast['Wind Speed']}")
+            st.write(f"Weather Description: {forecast['Description']}")
+        else:
+            st.error("Could not fetch weather data. Please check the city name or try again later.")
+
+
     
 
   
