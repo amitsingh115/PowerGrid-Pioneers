@@ -160,7 +160,7 @@ API_KEY = "YOUR_API_KEY"  # Replace with your actual API key from a weather serv
 
 # Function to fetch weather data
 def get_weather_forecast(city):
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city},&appid={API_KEY}&units=metric"
     response = requests.get(url)
     
     if response.status_code == 200:
