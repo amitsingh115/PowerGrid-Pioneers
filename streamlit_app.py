@@ -77,6 +77,77 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#New coding of failure mechanism
+
+import streamlit as st
+import time
+
+# Define Substation class
+class Substation:
+    def __init__(self, name, load_threshold):
+        self.name = name
+        self.load = 0  # Initial load is 0 MW
+        self.load_threshold = load_threshold  # Load threshold in MW
+        self.power_status = True  # Power is ON initially
+
+    def set_load(self, load):
+        self.load = load
+        self.check_overload()
+
+    def check_overload(self):
+        """Checks if the load exceeds the threshold and cuts power if necessary."""
+        if self.load > self.load_threshold:
+            self.power_status = False
+        else:
+            self.power_status = True
+
+    def get_status(self):
+        """Returns the power status as 'ONLINE' or 'OFFLINE'."""
+        return "ONLINE" if self.power_status else "OFFLINE"
+
+
+# Initialize grid system with multiple substations
+substations = [
+    Substation("North Substation", 100),  # Substation name, Load threshold (MW)
+    Substation("South Substation", 120),
+    Substation("East Substation", 90),
+    Substation("West Substation", 110)
+]
+
+# Title of the app
+st.title("Smart Grid Power Failure Mechanism")
+
+st.write("### Monitor and manage power distribution in the grid")
+
+# Sidebar inputs for load values
+st.sidebar.header("Set Substation Loads (MW)")
+
+# Allow the user to input load for each substation
+for substation in substations:
+    load = st.sidebar.slider(f"Set Load for {substation.name} (MW)", 0, 150, 50)
+    substation.set_load(load)
+
+# Display substation status
+st.write("### Substation Status")
+for substation in substations:
+    # Display each substation's status
+    st.write(f"**{substation.name}**: Load = {substation.load} MW | Status = {substation.get_status()}")
+
+# Simulate the system in real-time (optional)
+st.write("### Monitoring System")
+if st.button("Start Monitoring"):
+    st.write("Monitoring grid...")
+    for i in range(10):  # Simulate monitoring for 10 cycles
+        for substation in substations:
+            # Update status and display in real-time
+            substation.check_overload()
+            status = substation.get_status()
+            st.write(f"{substation.name} Status: {status}")
+            time.sleep(1)  # Simulate delay between cycles
+
+st.write("Note: Power will be cut if the load exceeds the substation's threshold.")
+
     
 
   
